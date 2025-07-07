@@ -63,14 +63,6 @@ git clone https://github.com/Higas01/teste-connect-digital
 cd ./teste-connect-digital
 ```
 
-### 2. Clone o repositório
-
-```sh
-git clone https://github.com/Higas01/teste-connect-digital
-
-cd ./teste-connect-digital
-```
-
 ### 3. Copie as variáveis de ambiente
 
 ```sh
@@ -120,4 +112,4 @@ cd frontend && pnpm run dev
 
 ### Observações:
 
-As pastas principais do mono repo (backend, mock_gateway, frontend) possuem detalhes específicos sobre suas respectivas atividades.
+As pastas principais do mono repo (backend, mock_gateway, frontend) possuem README específicos sobre suas respectivas atividades.
