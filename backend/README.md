@@ -90,6 +90,14 @@ Lista transações, podendo receber filtros via query params.
 /transactions?customer=Gabriel&status=paid
 ```
 
+obs: Todas as query params podem ser contradas no arquivo:
+```
+queryAliasMap.ts
+```
+onde a chave representa
+a query param, e o valor as entidades e seus respectivos atributos do sistema.
+
+
 **Response:**
 
 ```json
@@ -102,6 +110,7 @@ Lista transações, podendo receber filtros via query params.
   }
 ]
 ```
+
 
 ---
 
