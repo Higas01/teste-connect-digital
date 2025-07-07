@@ -1,0 +1,61 @@
+services:
+  db:
+    image: postgres:16
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app_db
+    ports:
+      - '5432:5432'
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_BACKEND_URL: http://127.0.0.1:3000
+        VITE_MOCK_GATEWAY_URL: http://127.0.0.1:4000
+    container_name: frontend_app
+    entrypoint: >
+      sh -c "
+        wait-for backend:3000 --timeout=30 -- &&
+        wait-for gateway:4000 --timeout=30 -- &&
+         nginx -g 'daemon off;'
+      "
+    ports:
+      - '8080:80'
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend_app
+    environment:
+      - SIGNATURE_SECRET=secret
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=app_db
+      - GATEWAY_URL=http://gateway:4000
+    ports:
+      - '3000:3000'
+    entrypoint: >
+      sh -c "
+        npx wait-port db:5432 &&
+        node ./dist/main.js
+      "
+  gateway:
+    build:
+      context: ./mock_gateway
+      dockerfile: Dockerfile
+    container_name: gateway_app
+    environment:
+      - SIGNATURE_SECRET=secret
+      - WEBHOOK_URL=http://backend:3000/transactions/webhook
+    ports:
+      - '4000:4000'
+    entrypoint: >
+      sh -c "
+        node ./dist/main.js
+      "
