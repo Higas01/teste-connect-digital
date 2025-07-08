@@ -4,7 +4,9 @@ import { WebhookPayloadDto } from 'src/dto/webhook-payload.dto';
 import { Transaction } from 'src/entities/transaction.entity';
 import { EntitiesServices } from 'src/providers/entities-services.provider';
 import {
+  booleanFields,
   dateFields,
+  numberFields,
   queryAliasMap,
   stringFields,
 } from 'src/utils/constants/queryAliasMap';
@@ -94,6 +96,16 @@ export class TransactionsService {
       } else if (dateFields.includes(key)) {
         qb.andWhere(`${relation}."${column}"::date = :${relation}_${column}`, {
           [`${relation}_${column}`]: value,
+        });
+      } else if (numberFields.includes(key)) {
+        const numberValue = parseFloat(value);
+        qb.andWhere(`${relation}.${column} = :${relation}_${column}`, {
+          [`${relation}_${column}`]: numberValue,
+        });
+      } else if (booleanFields.includes(key)) {
+        const booleanValue = value.toLowerCase() === 'true';
+        qb.andWhere(`${relation}.${column} = :${relation}_${column}`, {
+          [`${relation}_${column}`]: booleanValue,
         });
       }
     }

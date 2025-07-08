@@ -81,13 +81,33 @@ export const stringFields = [
   'documentType',
   'itemExternalRef',
   'title',
+  'refundedAmount',
+  'amount',
+  'fixedAmount',
+  'spreadPercentage',
+  'estimatedFee',
+  'netAmount',
+  'unitPrice',
 ];
+
+export const numberFields = [
+  'companyId',
+  'installments',
+  'expirationMonth',
+  'expirationYear',
+  'recipientId',
+  'quantity',
+]
 
 export const dateFields = [
   'paidAt',
   'createdAt',
   'updatedAt',
   'birthdate',
-  'expirationMonth',
-  'expirationYear',
 ];
+
+export const booleanFields = [
+  'traceable',
+  'reusable',
+  'tangible',
+]
